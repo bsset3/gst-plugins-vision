@@ -1610,7 +1610,11 @@ gst_pleorasrc_create (GstPushSrc * psrc, GstBuffer ** buf)
   /* wrap or copy image data to buffer */
   pvimage = pvbuffer->GetImage ();
   gpointer data = pvimage->GetDataPointer ();
-  if (src->pleora_stride == src->gst_stride) {
+  
+  if (src->pleora_stride == src->gst_stride || src->gst_stride==0) {
+    GST_TRACE_OBJECT(src, "Row stride match: (gst_stride, %d, pleora_stride %d)",src->gst_stride,src->pleora_stride);
+    //Equalize strides
+    src->gst_stride=src->pleora_stride;
     VideoFrame *vf = g_new0 (VideoFrame, 1);
     vf->src = src;
     vf->buffer = pvbuffer;
@@ -1628,7 +1632,6 @@ gst_pleorasrc_create (GstPushSrc * psrc, GstBuffer ** buf)
         "Row stride not aligned, copying %d -> %d",
         src->pleora_stride, src->gst_stride);
     
-    src->gst_stride=src->pleora_stride;
     *buf = gst_buffer_new_and_alloc (src->height * src->gst_stride);
 
     guint8 *s = (guint8 *) data;
