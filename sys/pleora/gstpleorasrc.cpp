@@ -1627,7 +1627,8 @@ gst_pleorasrc_create (GstPushSrc * psrc, GstBuffer ** buf)
     GST_LOG_OBJECT (src,
         "Row stride not aligned, copying %d -> %d",
         src->pleora_stride, src->gst_stride);
-
+    
+    src->gst_stride=src->pleora_stride;
     *buf = gst_buffer_new_and_alloc (src->height * src->gst_stride);
 
     guint8 *s = (guint8 *) data;
