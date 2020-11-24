@@ -55,7 +55,7 @@ Capture from a CoaXPress camera via a Kaya Komodo frame grabber, apply AGC to co
 > `gst-launch-1.0 kayasrc ! videolevels auto=continuous ! gigesimsink`
 
 Then in another command capture the GigE Vision video via Pleora eBUS and display the video to the screen:
-> `gst-launch-1.0 pleorasrc ! autovideoconvert ! autovideosink`
+> `gst-launch-1.0 pleorasrc ! bayer2rgb ! autovideoconvert ! autovideosink`
 
 ## Compiling
 
