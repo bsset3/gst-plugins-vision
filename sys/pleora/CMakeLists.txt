@@ -25,8 +25,8 @@ endif ()
 include_directories (AFTER
   ${Pleora_INCLUDE_DIR}
   ${PROJECT_SOURCE_DIR}/common
-  ${PROJECT_SOURCE_DIR}/gst-libs/klv
   )
+#${PROJECT_SOURCE_DIR}/gst-libs/klv
 
 link_directories(${Pleora_LIBRARY_DIR})
 
@@ -44,9 +44,9 @@ set (LIBRARIES
   ${GSTREAMER_VIDEO_LIBRARY}
   )
 
-if (ENABLE_KLV)
-  set (LIBRARIES ${LIBRARIES} gstklv-1.0-0)
-endif ()
+#if (ENABLE_KLV)
+#  set (LIBRARIES ${LIBRARIES} gstklv-1.0-0)
+#endif ()
 
 target_link_libraries (${libname}
   ${LIBRARIES}

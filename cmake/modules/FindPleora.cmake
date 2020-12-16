@@ -17,13 +17,14 @@ if (NOT Pleora_DIR)
 endif ()
 
 if (CMAKE_SIZEOF_VOID_P MATCHES "8")
-    set(_LIB_SUFFIX "64")
+    set(_LIB_SUFFIX "")
 else ()
     set(_LIB_SUFFIX "")
 endif ()
 
 set(_Pleora_PATHS PATHS
   "${Pleora_DIR}"
+  "/opt/jai/ebus_sdk/linux-aarch64-arm/include/"
   "C:/Program Files/Pleora Technologies Inc/eBUS SDK/Includes"
   "C:/Program Files (x86)/Pleora Technologies Inc/eBUS SDK/Includes")
 
@@ -31,14 +32,16 @@ find_path (Pleora_INCLUDE_DIR PvBase.h
     PATHS ${_Pleora_PATHS}
     PATH_SUFFIXES Includes)
 
-find_path (Pleora_LIBRARY_DIR PvBase${_LIB_SUFFIX}.lib
+find_path (Pleora_LIBRARY_DIR PvBase${_LIB_SUFFIX}.so
     PATHS ${_Pleora_PATHS}
     PATH_SUFFIXES Libraries)
 
 find_library (Pleora_LIBRARY_BASE PvBase${_LIB_SUFFIX} ${Pleora_LIBRARY_DIR})
 find_library (Pleora_LIBRARY_DEVICE PvDevice${_LIB_SUFFIX} ${Pleora_LIBRARY_DIR})
+find_library (Pleora_LIBRARY_VIRTUAL_DEVICE PvVirtualDevice${_LIB_SUFFIX} ${Pleora_LIBRARY_DIR})
+find_library (Pleora_LIBRARY_APPUTILS PvAppUtils${_LIB_SUFFIX} ${Pleora_LIBRARY_DIR})
 
-set (Pleora_LIBRARIES ${Pleora_LIBRARY_BASE} ${Pleora_LIBRARY_DEVICE})
+set(Pleora_LIBRARIES ${Pleora_LIBRARY_BASE} ${Pleora_LIBRARY_DEVICE} ${Pleora_LIBRARY_VIRTUAL_DEVICE} ${Pleora_LIBRARY_APPUTILS})
 
 if (Pleora_INCLUDE_DIR)
   file(STRINGS "${Pleora_INCLUDE_DIR}/PvVersion.h" _pleora_VERSION_CONTENTS REGEX "#define NVERSION_STRING")
